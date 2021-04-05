@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Home Page</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+      
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+                rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    
+    </head>
+    <body>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="navbar navbar-expand-lg navbar-dark bg-dark">
+                    <div class="container-fluid">
+                        <div class="text-center">
+                            <a class="navbar-brand" href="index.html">Team Budget Planner</a>
+                        </div>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+                                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav me-auto md-2 mb-lg-0">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="vendors.html">Vendors Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="deals.html">Deals Management</a>
+                                </li>
+                            </ul>
+                            <form class="row g-3 mt-0">
+                                <div class="col-auto">
+                                <input type="search" class="form-control" id="search" placeholder="Search...">
+                                </div>
+                                <div class="col-auto">
+                                <button type="submit" class="btn btn-info mb-3">Search</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            
+                            <div class="col-md-12 border rounded bg-secondary mt-3">
+                                <div class="row mx-auto text-white">
+                                    <h1>Home Page</h1>
+                                    <p>
+                                        Welcome to the Team Budget Planner project. This project consist of 2 pages or "views" The Vendors management 
+                                        and the deals Management views. To navigate to them use the navigation bar at the top of this page. In each 
+                                        view you will find a table display with some prepopulated data. The vendors management page will show the current
+                                        vendors supported with dates the deals were made with them and the url to their website.</p>
+                                    
+                                    <p>
+                                        The Deals Management page will show the deals name, which for this project decided to label deals simply by the 
+                                        name of the product the deal was for. It will also have the deal date for that particular product the vendor
+                                        for the product, and the project cost. 
+                                    </p>
+
+                                    <p>
+                                        Each page has add, update, and delete functions available throught he forms found on each page. To delete any particular
+                                        row simply click the trashcan icon located in the row. To update an entry click the pencil icon under the 'Edit' row 
+                                        of the table. The relative form's 'Add' button will change to an 'Update' button indicating that the next submit will
+                                        update the data of the row. Only change the values you wish to. It will pull all the current information into the form
+                                        so leave the fields you wish to stay the same alone.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

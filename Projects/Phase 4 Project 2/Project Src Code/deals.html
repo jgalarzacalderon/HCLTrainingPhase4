@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Deals Management Page</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+      
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css"
+                rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    
+    </head>
+    <body>
+
+      <div class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <div class="text-center">
+                <a class="navbar-brand" href="index.html">Team Budget Planner</a>
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" 
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto md-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="vendors.html">Vendors Management</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="deals.html">Deals Management</a>
+                    </li>
+                </ul>
+                <form class="row g-3 mt-0">
+                    <div class="col-auto">
+                      <input type="search" class="form-control" id="search" placeholder="Search...">
+                    </div>
+                    <div class="col-auto">
+                      <button type="submit" class="btn btn-info mb-3">Search</button>
+                    </div>
+                  </form>
+              </div>
+          </div>
+      </div>
+
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-8 border rounded bg-secondary mt-3 text-white">
+              <h2>Deals management page</h2>
+              <p>Use this page to manage the deals on file. The table below displays all deals and their current information</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8">
+              <table id="dealsTable" 
+                     class="table table-bordered table-condensed table-striped">
+                <thead>
+                  <tr>
+                    <th>Edit</th>
+                    <th>Deal Name</th>
+                    <th>Deal Date</th>
+                    <th>Vendor</th>
+                    <th>Project Cost</th>
+                    <th>Delete</th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-8">
+              <div class="card" style="width: 40rem">
+                <div class="card-title p-3 bg-info text-white">
+                  <h5>Deal Information</h5>
+                </div>
+                <div class="px-3">
+                  <p>Use the form below to add or update deal information. To update click the "pencil" icon on the row you wish to update first 
+                    then enter the information and click "update".</p>
+                </div>
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="dealname">
+                      Deal Name
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Deal name"
+                           id="dealname" />
+                  </div>
+                  <div class="form-group">
+                    <label for="dealdate">
+                      Deal Date
+                    </label>
+                    <input type="date"
+                           class="form-control"
+                           placeholder="yyyy/mm/dd"
+                           id="dealdate" />
+                  </div>
+                  <div class="form-group">
+                    <label for="vendor">
+                      Vendor
+                    </label>
+                    <input type="text"
+                           class="form-control"
+                           placeholder="Vendor name"
+                           id="vendor" />
+                  </div>
+                  <div class="form-group">
+                    <label for="cost">
+                      Project Cost
+                    </label>
+                    <input type="number"
+                           class="form-control"
+                           placeholder="0"
+                           id="cost" />
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-xs-12">
+                      <button type="button" id="updateButton"
+                              class="btn btn-primary m-3"
+                              onclick="dealUpdate();">
+                        Add
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <script>
+
+            localStorage.setItem("myData", "test")
+
+            var myDataTest = localStorage.getItem("myData")
+
+            // Next id for adding a new Deal
+            var nextId = 1;
+
+            // ID of Deal currently editing
+            var activeId = 0;
+
+            function dealDisplay(ctl) {
+                var row = $(ctl).parents("tr");
+                var cols = row.children("td");
+                activeId = $($(cols[0]).children("button")[0]).data("id");
+                $("#dealname").val($(cols[1]).text());
+                $("#dealdate").val($(cols[2]).text());
+                $("#vendor").val($(cols[3]).text());
+                $("#cost").val($(cols[4]).text());
+    
+                // Change Update Button Text
+                $("#updateButton").text("Update");
+            
+            }
+
+            function dealsAdd() {
+              // First check if a <tbody> tag exists, add one if not
+              if ($("#dealsTable tbody").length == 0) {
+                  $("#dealsTable").append("<tbody></tbody>");
+              }
+        
+              // Append product to the table
+              $("#dealsTable tbody").append("<tr>" +
+                "<td>" +
+                  "<button type='button' onclick='dealDisplay(this);' class='btn btn-default' data-id=' " + "'>" +
+                  "<img src='images/pencil.svg' alt='editicon' width='32' height='32'>" +
+                  "</button>" +
+                "</td>" +
+                "<td>Powerbeats Pro Wireless Earphones by Dre</td>" +
+                "<td>2020-06-18</td>" +
+                "<td>Beats By Dre</td>" +
+                "<td>100000</td>" +
+                "<td>" +
+                  "<button type='button' onclick='dealDelete(this);' class='btn btn-default' data-id=' " + "'>" +
+                  "<img src='images/trash.svg' alt='editicon' width='32' height='32'>" +
+                  "</button>" +
+                "</td>" +
+                "</tr>");
+            
+                $("#dealsTable tbody").append("<tr>" +
+                "<td>" +
+                  "<button type='button' onclick='dealDisplay(this);' class='btn btn-default' data-id=' " + "'>" +
+                  "<img src='images/pencil.svg' alt='editicon' width='32' height='32'>" +
+                  "</button>" +
+                "</td>" +
+                "<td>Samsung Galaxy S21 Ultra</td>" +
+                "<td>2021-01-28</td>" +
+                "<td>Samsung</td>" +
+                "<td>200000</td>" +
+                "<td>" +
+                  "<button type='button' onclick='dealDelete(this);' class='btn btn-default' data-id=' " + "'>" +
+                  "<img src='images/trash.svg' alt='editicon' width='32' height='32'>" +
+                  "</button>" +
+                "</td>" +
+                "</tr>");
+            
+
+                $("#dealsTable tbody").append("<tr>" +
+                "<td>" +
+                  "<button type='button' onclick='dealDisplay(this);' class='btn btn-default' data-id=' " + "'>" +
+                  "<img src='images/pencil.svg' alt='editicon' width='32' height='32'>" +
+                  "</button>" +
+                "</td>" +
+                "<td>AirPods Pro</td>" +
+                "<td>2021-03-14</td>" +
+                "<td>Apple</td>" +
+                "<td>80000</td>" +
+                "<td>" +
+                  "<button type='button' onclick='dealDelete(this);' class='btn btn-default' data-id=' " + "'>" +
+                  "<img src='images/trash.svg' alt='editicon' width='32' height='32'>" +
+                  "</button>" +
+                "</td>" +
+                "</tr>");
+            
+
+            }
+
+            function dealUpdate() {
+                if ($("#updateButton").text() == "Update") {
+                    dealUpdateInTable(activeId);
+                } else {
+                    dealAddToTable();
+                }
+    
+                // Clear form fields
+                formClear();
+    
+                // Focus to deal name field
+                $("#dealname").focus();
+            }
+
+            // Add deal to <table>
+            function dealAddToTable() {
+                // First check if a <tbody> tag exists, add one if not
+                if ($("#dealsTable tbody").length == 0) {
+                $("#dealsTable").append("<tbody></tbody>");
+                }
+
+                // Append deal to table
+                $("#dealsTable tbody").append(dealBuildTableRow(nextId));
+
+                // Increment next ID to use
+                nextId += 1;
+            }
+
+            // Update deal in <table>
+            function dealUpdateInTable(id) {
+                // Find deal in <table>
+                var row = $("#dealsTable button[data-id='" + id + "']").parents("tr")[0];
+
+                // Add changed deal to table
+                $(row).after(dealBuildTableRow(id));
+
+                // Remove original deal
+                $(row).remove();
+
+                // Clear form fields
+                formClear();
+
+                // Change Update Button Text
+                $("#updateButton").text("Add");
+            }
+
+            // Build a <table> row of Deal data
+            function dealBuildTableRow(id) {
+                var ret =
+                    "<tr>" +
+                    "<td>" +
+                        "<button type='button' onclick='dealDisplay(this);' class='btn btn-default' data-id=' " + id + "'>" +
+                        "<img src='images/pencil.svg' alt='editicon' width='32' height='32'>" +
+                        "</button>" +
+                    "</td>" +
+                    "<td>" + $("#dealname").val() + "</td>" +
+                    "<td>" + $("#dealdate").val() + "</td>" +
+                    "<td>" + $("#vendor").val() + "</td>" +
+                    "<td>" + $("#cost").val() + "</td>" +
+                    "<td>" +
+                        "<button type='button' onclick='dealDelete(this);' class='btn btn-default' data-id=' " + id + "'>" +
+                        "<img src='images/trash.svg' alt='editicon' width='32' height='32'>" +
+                        "</button>" +
+                    "</td>" +
+                    "</tr>"
+
+                return ret;
+            }
+
+            // Delete deal from <table>
+            function dealDelete(ctl) {
+                $(ctl).parents("tr").remove();
+            }
+
+            // Clear form fields
+            function formClear() {
+                $("#dealname").val("");
+                $("#dealdate").val("");
+                $("#vendor").val("");
+                $("#cost").val("");
+            }
+
+            $(document).ready(function () {
+              dealsAdd();
+            }); 
+
+        </script>
+    </body>
+</html>
